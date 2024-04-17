@@ -19,6 +19,7 @@ public class CarController : MonoBehaviour
     [Serializable]
     public struct Wheel
     {
+        public GameObject wheelModel;
         public WheelCollider wheelCollider;
         public Axel axel;
     }
@@ -49,6 +50,7 @@ public class CarController : MonoBehaviour
     void Update()
     {
         GetInputs();
+        AnimateWheels();
     }
 
     void LateUpdate()
@@ -81,7 +83,7 @@ public class CarController : MonoBehaviour
     {
         foreach (var wheel in wheels)
         {
-            wheel.wheelCollider.motorTorque = moveInput * 600 * maxAcceleration * Time.deltaTime;
+            wheel.wheelCollider.motorTorque = -moveInput * 600 * maxAcceleration * Time.deltaTime;
         }
     }
 
@@ -112,6 +114,18 @@ public class CarController : MonoBehaviour
             {
                 wheel.wheelCollider.brakeTorque = 0;
             }
+        }
+    }
+
+    void AnimateWheels()
+    {
+        foreach (var wheel in wheels)
+        {
+            Quaternion rot;
+            Vector3 pos;
+            wheel.wheelCollider.GetWorldPose(out pos, out rot);
+            wheel.wheelModel.transform.position = pos;
+            wheel.wheelModel.transform.rotation = rot;
         }
     }
 }
