@@ -41,12 +41,6 @@ public class CarController : MonoBehaviour
 
     private Rigidbody carRb;
 
-    AudioManager audioManager;
-    bool isIdleSoundPlaying;
-    public void Awake()
-    {
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
-    }
     void Start()
     {
         carRb = GetComponent<Rigidbody>();
@@ -84,31 +78,6 @@ public class CarController : MonoBehaviour
         {
             moveInput = Input.GetAxis("Vertical");
             steerInput = Input.GetAxis("Horizontal");
-        }
-
-        // Check if the car is moving
-        bool isMoving = IsCarMoving();
-
-        if (!isMoving || carRb.velocity.magnitude < movementThreshold)
-        {
-            // Check if the idle sound is not already playing
-            if (!isIdleSoundPlaying)
-            {
-                // Play the idle sound once and set it to loop
-                audioManager.PlaySFX(audioManager.EngineIdle);
-                audioManager.SFXSource.loop = true;
-                isIdleSoundPlaying = true; // Set flag to indicate idle sound is playing
-            }
-        }
-        else
-        {
-            // Stop the idle sound if it's playing
-            if (isIdleSoundPlaying)
-            {
-                audioManager.StopSFX();
-                audioManager.PlaySFX(audioManager.Driving);
-                isIdleSoundPlaying = false; // Reset flag since idle sound is no longer playing
-            }
         }
     }
 
