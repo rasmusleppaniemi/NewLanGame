@@ -24,6 +24,9 @@ public class FinishLine : MonoBehaviour
             {
                 // Load the next scene in the build settings
                 SceneManager.LoadScene(nextSceneIndex);
+
+                // Destroy the GameTimer object
+                Destroy(gameTimer.gameObject);
             }
             else
             {

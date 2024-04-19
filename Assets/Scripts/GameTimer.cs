@@ -5,9 +5,23 @@ using TMPro;
 
 public class GameTimer : MonoBehaviour
 {
+    public static GameTimer Instance { get; private set; }
+
     [SerializeField] private TextMeshProUGUI timerText;
     public float ElapsedTime { get; private set; }
     public bool GameOn = true;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void Update()
     {
